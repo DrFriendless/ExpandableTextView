@@ -1,4 +1,5 @@
-apply plugin: 'android-library'
+apply plugin: 'com.android.library'
+apply plugin: 'ustream-release'
 
 android {
 
@@ -23,5 +24,26 @@ dependencies {
     compile "com.android.support:support-annotations:${supportPackageVersion}"
 }
 
-// for maven central deployment
-apply from: 'https://raw.githubusercontent.com/chrisbanes/gradle-mvn-push/master/gradle-mvn-push.gradle'
+release {
+    publication {
+        groupId = 'tv.ustream.android.expandableTexView'
+        artifactId = 'ExpandableTextView-lib'
+
+        aar {
+            variant = 'release'
+        }
+
+        androidSource {
+            variant = 'release'
+        }
+
+        dependencies {
+            dependency "com.android.support:support-annotations:${supportPackageVersion}"
+        }
+    }
+
+    archiva {
+        user = project.properties.'archiva.username'
+        password = project.properties.'archiva.password'
+    }
+}

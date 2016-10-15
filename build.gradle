@@ -3,9 +3,14 @@
 buildscript {
     repositories {
         mavenCentral()
+        jcenter()
+        maven {
+            url 'https://archiva.ustream-adm.in/archiva/repository/internal'
+        }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.3.0'
+        classpath 'com.android.tools.build:gradle:2.1.2'
+        classpath 'tv.ustream.gradle:gradle-android:0.0.20'
     }
 }
 
