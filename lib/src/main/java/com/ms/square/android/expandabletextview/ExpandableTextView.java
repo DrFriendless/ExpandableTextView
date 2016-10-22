@@ -135,6 +135,11 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
             mCollapsedStatus.put(mPosition, mCollapsed);
         }
 
+        if (mCollapsed && mCollapsedHeight == 0) {
+            mRelayout = true;
+            requestLayout();
+            return;
+        }
         // mark that the animation is in progress
         mAnimating = true;
 
@@ -201,7 +206,6 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
 
         // Measure
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
         // If the text fits in collapsed mode, we are done.
         if (mTv.getLineCount() <= mMaxCollapsedLines) {
             return;
@@ -243,6 +247,13 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
         setVisibility(TextUtils.isEmpty(text) ? View.GONE : View.VISIBLE);
         clearAnimation();
         getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        requestLayout();
+    }
+
+    public void setCollapsed(boolean isCollapsed) {
+        mCollapsed = isCollapsed;
+        mExpandIndicatorController.changeState(mCollapsed);
+        mRelayout = true;
         requestLayout();
     }
 
